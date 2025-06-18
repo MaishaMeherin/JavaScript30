@@ -59,20 +59,41 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', function(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
-    if (!audio) return; //stop the function from running
-    audio.currentTime = 0; //rewind to the start, otherwise it plays until the end
-    audio.play();
-    key.classList.add('playing'); //adding the class to the key that was pressed
-    
-    //when transition ends, remove the 'playing' class
-    key.addEventListener('transitionend', function() {
-      key.classList.remove('playing');
-    })
+  //adding mouse click support
+  function playSound(keyCode) {
+    const audio = document.querySelector(`audio[data-key="${keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${keyCode}"]`);
 
+    if (!audio) return; //stop the function from running
+    audio.currentTime = 0; //rewind
+    audio.play();
+    key.classList.add('playing');
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; //skip if its not transform event
+    e.target.classList.remove('playing'); //remove the playing class
+  }
+
+  //select all the key elements
+  const keys = document.querySelectorAll('.key');
+
+  //add keydown event listener to the window
+  window.addEventListener('keydown', (e)=>{
+    const keyCode = e.keyCode;
+    playSound(keyCode);
   })
+
+  //add click event listener to each key
+  keys.forEach((key) => {
+    key.addEventListener('click', () => {
+      const keyCode = key.getAttribute('data-key');
+      playSound(keyCode);
+    })
+    key.addEventListener('transitionend', removeTransition);
+  })
+
+
 </script>
 
 
