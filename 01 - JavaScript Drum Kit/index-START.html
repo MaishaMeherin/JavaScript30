@@ -60,7 +60,18 @@
 
 <script>
   window.addEventListener('keydown', function(e) {
-    console.log(e.keyCode);
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    if (!audio) return; //stop the function from running
+    audio.currentTime = 0; //rewind to the start, otherwise it plays until the end
+    audio.play();
+    key.classList.add('playing'); //adding the class to the key that was pressed
+    
+    //when transition ends, remove the 'playing' class
+    key.addEventListener('transitionend', function() {
+      key.classList.remove('playing');
+    })
+
   })
 </script>
 
