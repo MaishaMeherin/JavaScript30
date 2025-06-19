@@ -38,29 +38,107 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const fifteen = inventors.filter(function(inventor) {
+      if (inventor.year >= 1500 && inventor.year < 1600){
+        return true; //keep it
+      }
+      return false; //remove it
+    })
 
-    // Array.prototype.map()
+    //with an arrow function
+    const fifteenArrow = inventors.filter(inventor => {
+      return (inventor.year >= 1500 && inventor.year < 1600);
+    })
+    console.table(fifteen);
+    //console.table(fifteenArrow);
+
+    // Array.prototype.map() => map does not change the original array, it creates a new one and returns that array
     // 2. Give us an array of the inventors first and last names
+    const fullNames = inventors.map(inventor => inventor.first + ' ' + inventor.last);
+    console.log(fullNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const ordered = inventors.sort(function(firstPerson, secondPerson){
+      if (firstPerson.year > secondPerson.year) {
+        return 1; //first person is older
+      } else {
+        return -1; //second person is older
+      }
+    });
+    console.table(ordered);
 
-    // Array.prototype.reduce()
+    //ternary operator
+    const ordedTernary = inventors.sort((a,b) => {a.year > b.year ? 1 : -1});
+
+
+    // Array.prototype.reduce() => reduce executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
     // 4. How many years did all the inventors live all together?
+    var totalYears = 0
+    for (var i=0; i<0; i++){
+      totalYears += inventors[i].passed - inventors[i].year
+    }
+    console.log(totalYears);
+
+    const totalYearsReduce = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    }, 0)
+    console.log(totalYearsReduce);
+
 
     // 5. Sort the inventors by years lived
-
+    const oldest = inventors.sort(function(a, b){
+      const lastGuy = a.passed - a.year;
+      const nextGuy = b.passed - b.year;
+      if (lastGuy > nextGuy) {
+        return -1;
+      }
+      else {
+        return 1;
+      }
+    })
+    console.table(oldest);
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    //const category = document.querySelector('.mw-category');
+    //const links = Array.from(category.querySelectorAll('a'));
+    //const de = links
+    //              .map(link => link.textContent)
+    //              .filter(streetName => streetName.includes('de'));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+    const sortedNames = people.sort((lastOne, nextOne) => {
+      const [aLast, aFirst] = lastOne.split(', ');
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    })
+    console.log(sortedNames);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const transportationInstances = data.reduce(function(obj, item){
+      if (!obj[item]){
+        obj[item] = 0; //if the item is not in the object, add it with a value of 0
+      }
+      obj[item] ++;
+      return obj; //return the object 
+    }, {});
+    console.log(transportationInstances); 
 
+    // Bonus: sort the transportation instances by the number of instances
+    //step-1: convert objects into an array of [key, value]
+    const entries = Object.entries(transportationInstances)
+    //step-2: sort that value
+    const sortedTransportation = entries.sort((a,b)=>b[1]-a[1]); //if b[1]-a[1] is negative->a comes before b, if positive->b comes before a
+    console.log(sortedTransportation);
+
+    //9. Convert ['a', 'b', 'c'] to a single string → 'abc'
+    const letters = ['a', 'b', 'c', 'd', 'e'];
+    const lettersSorted = letters.reduce(function(accumulator, letter){
+      return accumulator + letter;
+    }, '')
+    console.log(lettersSorted);
   </script>
 </body>
 </html>
