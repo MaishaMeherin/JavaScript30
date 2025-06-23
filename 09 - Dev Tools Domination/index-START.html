@@ -17,31 +17,66 @@
       p.style.color = '#BADA55';
       p.style.fontSize = '50px';
     }
+    //select the p tag by clicking on it then break on->attribute modifications, it will pause the code execution and run debugger when the attribute is modified
 
     // Regular
+    console.log('Hello!');
 
     // Interpolated
+    console.log('I am a %s string!', '💩');
+    // %s is a placeholder for a string, it will be replaced by the second argument
 
     // Styled
+    console.log('%c I am some great text', 'font-size: 20px; background: #BADA55; text-shadow: 10px 10px 0 blue');
 
     // warning!
+    console.warn('OHH NOO')
 
     // Error :|
+    console.error('no shit')
 
     // Info
+    console.info('Fun fact:??')
 
-    // Testing
+    // Testing, you can test something and assert will throw error if it's wrong
+    console.assert(1 === 2, 'Thats not equal');
+    
+    const p = document.querySelector('p');
+
+    console.assert(p.classList.contains('ouch'), 'That is wrong!');
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    console.log(p);
+    console.dir(p); //the dataset on the specific one
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`)
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`)
+      console.groupEnd(`${dog.name}`)
+    });
 
     // counting
+    console.count('Meds');
+    console.count('Meds');
+    console.count('Meds');
 
     // timing
+    //how long something takes
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
 
+    // table
+    console.table(dogs);
   </script>
 </body>
 </html>
